@@ -1,377 +1,438 @@
-# 🚀 Profile Optimizer — Complete Career Toolkit
+# 🚀 Profile Optimizer — Kit completo para carreira
 
-AI-powered career toolkit that optimizes your LinkedIn, GitHub, resume, interview prep, job search, and more — all in one app.
+Ferramenta de carreira baseada em IA que otimiza seu LinkedIn, GitHub, currículo, preparação para entrevistas, busca de empregos e muito mais — tudo em uma única aplicação.
 
-Works with **any AI model**: Claude, OpenAI GPT-4o, Google Gemini (free), Groq (free), or Ollama (free, local, offline).
-
----
-
-## Engineering highlights
-
-CareerKit is an **end-to-end Python application** for profile analysis and job-search workflows, designed to work across multiple LLM providers instead of assuming a single model API.
-
-- **Application layer:** Streamlit interface with separate tools for profile review, resume generation, job-description matching, and interview preparation.
-- **Provider abstraction:** documented support for hosted LLM APIs and locally run Ollama models, allowing users to choose between flexibility and local inference.
-- **Document ingestion:** extracts content from uploaded LinkedIn PDFs so that analyses share the same source material.
-- **Privacy-aware workflow:** documents local configuration and a no-app-server-storage approach; users should review the chosen model provider's own handling policies.
-- **Engineering trade-off:** the same application features can run across distinct providers, but quality, latency, context windows, pricing, and privacy depend on the provider selected.
-
-**What reviewers can inspect:** [app.py](app.py) for the application and model-integration flow, [requirements.txt](requirements.txt) for dependencies, and this README for reproducible setup.
-
-Built by [Sanyam Sharma](https://github.com/humaniods), a Voice AI Engineer focused on multilingual speech, LLM applications and Python backend development.
+Funciona com **qualquer modelo de IA compatível**: Claude, OpenAI GPT-4o, Google Gemini (gratuito), Groq (gratuito) ou Ollama (gratuito, local e offline).
 
 ---
 
-## What This Tool Does
+## Sobre este fork
 
-One app, 10 tools — upload your LinkedIn PDF once, use everywhere:
+Este projeto é um fork do [CareerKit original](https://github.com/humaniods/careerkit ), criado por [Sanyam Sharma](https://github.com/humaniods ).
 
-| # | Tool | Input | Output |
-|---|------|-------|--------|
-| 1 | **📋 LinkedIn Optimizer** | LinkedIn PDF | Rewritten headline, about, experience bullets, skills order |
-| 2 | **🐙 GitHub Optimizer** | GitHub username | Optimized bio, profile README.md, repo descriptions, pin list |
-| 3 | **🎯 JD Matcher** | LinkedIn PDF + Job Description | Match score %, skill gaps, "should I apply?" verdict |
-| 4 | **📄 ATS Resume** | LinkedIn PDF | Clean, ATS-friendly resume (Markdown) |
-| 5 | **🛠️ Project Suggestions** | LinkedIn PDF + target role | 7 project ideas with tech stack, difficulty, time estimate |
-| 6 | **🎤 Interview Prep** | LinkedIn PDF + role + company | Personalized questions, sample answers, salary range |
-| 7 | **📧 Cold Outreach** | LinkedIn PDF + target company | 9 templates: LinkedIn DMs, cold emails, referral requests |
-| 8 | **📊 Skills Gap Analysis** | LinkedIn PDF + target role | Market readiness score, learning roadmap month-by-month |
-| 9 | **🔍 Job Keywords** | LinkedIn PDF + location | Search strings for LinkedIn, Naukri, Indeed, Google |
-| 10 | **✉️ Cover Letter** | LinkedIn PDF + Job Description | Tailored cover letter ready to send |
+A versão original serve como base para este trabalho. Este fork é mantido por **Fabio Araújo (0xFAB10)** e tem como objetivos:
 
----
+- traduzir a interface, a documentação e as mensagens do projeto para português do Brasil;
+- tornar a ferramenta mais acessível para pessoas brasileiras;
+- estudar o uso diário da aplicação e identificar oportunidades de melhoria;
+- automatizar gradualmente algumas funções relacionadas à carreira, à busca de vagas e à preparação profissional;
+- adaptar e evoluir o projeto de acordo com as necessidades observadas durante o uso.
 
-## Supported AI Providers
+As automações ainda estão em fase de planejamento. As funções serão definidas a partir da experiência prática com a aplicação e, portanto, esta seção representa intenções futuras, não funcionalidades já implementadas.
 
-You choose which AI to use. You are NOT locked into any one provider.
-
-| Provider | Cost per use | Speed | Quality | Free Tier? |
-|----------|-------------|-------|---------|------------|
-| **Claude** (Anthropic) | ~$0.01–0.05 | Fast | ⭐⭐⭐⭐⭐ | No (pay-per-use) |
-| **OpenAI** (GPT-4o) | ~$0.01–0.05 | Fast | ⭐⭐⭐⭐⭐ | $5 free credit on signup |
-| **Google Gemini** | **Free** | Fast | ⭐⭐⭐⭐ | ✅ Yes — generous free tier |
-| **Groq** (Llama 3, Mixtral) | **Free** | Fastest | ⭐⭐⭐⭐ | ✅ Yes — free tier |
-| **Ollama** (runs on your PC) | **Free forever** | Slow (depends on PC) | ⭐⭐⭐ | ✅ Fully offline, no account needed |
-
-### Where to get API keys
-
-| Provider | Signup Link | Steps |
-|----------|------------|-------|
-| **Claude** | https://console.anthropic.com | Sign up → API Keys → Create Key → copy `sk-ant-...` |
-| **OpenAI** | https://platform.openai.com/api-keys | Sign up → API Keys → Create → copy `sk-...` |
-| **Gemini** | https://aistudio.google.com/apikey | Sign in with Google → Get API Key → copy |
-| **Groq** | https://console.groq.com/keys | Sign up → API Keys → Create → copy `gsk_...` |
-| **Ollama** | https://ollama.com | Download & install → no key needed |
+As alterações deste fork são independentes do desenvolvimento do projeto original. Consulte o repositório original para acompanhar a versão principal e seus créditos.
 
 ---
 
-## Installation & Setup
+## Destaques de engenharia
 
-### Prerequisites
+O CareerKit é uma **aplicação Python completa** para análise de perfis e fluxos de busca de emprego. O projeto foi desenvolvido para trabalhar com vários provedores de modelos de linguagem, em vez de depender de uma única API.
 
-- **Python 3.10 or higher** — check with `python3 --version`
-- **pip** — comes with Python, check with `pip --version`
-- **Internet connection** — for GitHub API and AI provider API calls
-- **A web browser** — app opens in your default browser
+- **Camada da aplicação:** interface em Streamlit com ferramentas separadas para revisão de perfil, geração de currículo, comparação com descrições de vagas e preparação para entrevistas.
+- **Abstração de provedores:** suporte documentado a APIs de IA hospedadas e a modelos Ollama executados localmente, permitindo escolher entre flexibilidade e inferência local.
+- **Leitura de documentos:** extrai o conteúdo de PDFs exportados do LinkedIn para que as análises utilizem a mesma fonte de informações.
+- **Fluxo orientado à privacidade:** configurações locais e ausência de armazenamento dos dados em um servidor próprio da aplicação. O usuário deve consultar também as políticas de tratamento de dados do provedor de IA escolhido.
+- **Decisões de engenharia:** os mesmos recursos podem ser executados por provedores diferentes, mas qualidade, latência, janela de contexto, preço e privacidade dependem do provedor selecionado.
 
-### Step 1: Download the project
+**O que pode ser analisado:** [app.py](app.py), que contém a aplicação e o fluxo de integração com os modelos; [requirements.txt](requirements.txt), que lista as dependências; e este README, que documenta uma configuração reproduzível.
 
-**Option A — Git clone:**
+O projeto original foi criado por [Sanyam Sharma](https://github.com/humaniods ), Voice AI Engineer com foco em fala multilíngue, aplicações com LLMs e desenvolvimento de back-end em Python.
+
+---
+
+## O que esta ferramenta faz
+
+Uma aplicação com 10 ferramentas — carregue seu PDF do LinkedIn uma vez e use as informações em todas elas:
+
+| Nº | Ferramenta | Entrada | Saída |
+|---|---|---|---|
+| 1 | **📋 Otimizador do LinkedIn** | PDF do LinkedIn | Título, seção Sobre, experiências e ordem das competências reescritos |
+| 2 | **🐙 Otimizador do GitHub** | Nome de usuário do GitHub | Biografia, README de perfil, descrições de repositórios e lista de projetos fixados otimizados |
+| 3 | **🎯 Comparador com vaga** | PDF do LinkedIn + descrição da vaga | Percentual de compatibilidade, lacunas de competências e indicação sobre se vale a pena candidatar-se |
+| 4 | **📄 Currículo ATS** | PDF do LinkedIn | Currículo limpo e compatível com sistemas ATS em Markdown |
+| 5 | **🛠️ Sugestões de projetos** | PDF do LinkedIn + cargo desejado | 7 ideias de projetos com tecnologias, dificuldade e estimativa de tempo |
+| 6 | **🎤 Preparação para entrevista** | PDF do LinkedIn + cargo + empresa | Perguntas personalizadas, respostas de exemplo e faixa salarial |
+| 7 | **📧 Abordagem profissional** | PDF do LinkedIn + empresa desejada | 9 modelos: mensagens do LinkedIn, e-mails e pedidos de indicação |
+| 8 | **📊 Análise de lacunas de competências** | PDF do LinkedIn + cargo desejado | Grau de preparo para o mercado e roteiro mensal de aprendizagem |
+| 9 | **🔍 Palavras-chave para vagas** | PDF do LinkedIn + localização | Strings de busca para LinkedIn, Naukri, Indeed e Google |
+| 10 | **✉️ Carta de apresentação** | PDF do LinkedIn + descrição da vaga | Carta de apresentação personalizada pronta para enviar |
+
+---
+
+## Provedores de IA compatíveis
+
+Você escolhe qual IA usar. O projeto **não exige um único provedor**.
+
+| Provedor | Custo por uso | Velocidade | Qualidade | Possui plano gratuito? |
+|---|---:|---|---|---|
+| **Claude** (Anthropic) | ~US$ 0,01–0,05 | Rápida | ⭐⭐⭐⭐⭐ | Não — cobrança por uso |
+| **OpenAI** (GPT-4o) | ~US$ 0,01–0,05 | Rápida | ⭐⭐⭐⭐⭐ | Crédito gratuito de US$ 5 no cadastro |
+| **Google Gemini** | **Gratuito** | Rápida | ⭐⭐⭐⭐ | ✅ Sim — plano gratuito generoso |
+| **Groq** (Llama 3, Mixtral) | **Gratuito** | Mais rápida | ⭐⭐⭐⭐ | ✅ Sim — plano gratuito |
+| **Ollama** (executado no computador) | **Gratuito para sempre** | Lenta — depende do computador | ⭐⭐⭐ | ✅ Totalmente offline, sem necessidade de conta |
+
+### Onde obter as chaves de API
+
+| Provedor | Link de cadastro | Etapas |
+|---|---|---|
+| **Claude** | https://console.anthropic.com | Cadastre-se → API Keys → Create Key → copie `sk-ant-...` |
+| **OpenAI** | https://platform.openai.com/api-keys | Cadastre-se → API Keys → Create → copie `sk-...` |
+| **Gemini** | https://aistudio.google.com/apikey | Entre com o Google → Get API Key → copie a chave |
+| **Groq** | https://console.groq.com/keys | Cadastre-se → API Keys → Create → copie `gsk_...` |
+| **Ollama** | https://ollama.com | Baixe e instale — não é necessária uma chave |
+
+---
+
+## Instalação e configuração
+
+### Pré-requisitos
+
+- **Python 3.10 ou superior** — verifique com `python3 --version`;
+- **pip** — acompanha o Python; verifique com `pip --version`;
+- **Conexão com a internet** — necessária para a API do GitHub e para as APIs dos provedores de IA;
+- **Um navegador da web** — a aplicação abre no navegador padrão.
+
+### Etapa 1: Baixar o projeto
+
+**Opção A — Clonar com Git:**
+
 ```bash
 git clone https://github.com/humaniods/careerkit.git
 cd careerkit
 ```
 
-**Option B — Manual download:**
-1. Download the ZIP from GitHub
-2. Extract it
-3. Open terminal in the extracted folder
+> Este é o endereço do projeto original. Para trabalhar com este fork, use o endereço do seu próprio repositório:
+>
+> ```bash
+> git clone https://github.com/0xFAB10/careerkit.git
+> ```
 
-### Step 2: Install dependencies
+**Opção B — Baixar manualmente:**
+
+1. Baixe o arquivo ZIP pelo GitHub;
+2. Extraia o conteúdo;
+3. Abra o terminal na pasta extraída.
+
+### Etapa 2: Instalar as dependências
 
 ```bash
 pip install -r requirements.txt
 ```
 
-This installs:
-| Package | What it does | Size |
-|---------|-------------|------|
-| `streamlit` | Web UI (the app runs in browser) | ~80MB |
-| `pdfplumber` | Reads text from LinkedIn PDF | ~5MB |
-| `requests` | Calls GitHub API, Gemini API, Groq API | ~1MB |
-| `anthropic` | Claude AI SDK (skip if not using Claude) | ~5MB |
-| `openai` | OpenAI SDK (skip if not using OpenAI) | ~5MB |
+Isso instala:
 
-**If you only want free providers (Gemini/Groq/Ollama):**
+| Pacote | Função | Tamanho aproximado |
+|---|---|---:|
+| `streamlit` | Interface web — a aplicação é executada no navegador | ~80 MB |
+| `pdfplumber` | Leitura do texto do PDF do LinkedIn | ~5 MB |
+| `requests` | Chamadas para as APIs do GitHub, Gemini e Groq | ~1 MB |
+| `anthropic` | SDK de IA do Claude — opcional se não for usar Claude | ~5 MB |
+| `openai` | SDK da OpenAI — opcional se não for usar OpenAI | ~5 MB |
+
+**Se você quiser usar apenas provedores gratuitos (Gemini, Groq ou Ollama):**
+
 ```bash
 pip install streamlit pdfplumber requests
 ```
-No `anthropic` or `openai` needed — Gemini and Groq use REST API directly.
 
-### Step 3: Run the app
+Nesse caso, não é necessário instalar `anthropic` ou `openai`. Gemini e Groq usam a API REST diretamente.
+
+### Etapa 3: Executar a aplicação
 
 ```bash
 streamlit run app.py
 ```
 
-**What happens:**
-1. Terminal shows: `Local URL: http://localhost:8501`
-2. Browser opens automatically at that URL
-3. If browser doesn't open, manually go to `http://localhost:8501`
+**O que acontece:**
 
-### Step 4: First-time setup (in the app)
+1. O terminal mostra `Local URL: http://localhost:8501`;
+2. O navegador abre automaticamente nesse endereço;
+3. Se o navegador não abrir, acesse manualmente `http://localhost:8501`.
 
-1. **Left sidebar** → Select your AI provider (e.g., "Google Gemini" for free)
-2. **Enter API key** → paste your key (see table above for where to get one)
-3. **Key saves automatically** → stored locally at `~/.profile_optimizer/config.json`
-4. You only do this once — next time the key is already there
+### Etapa 4: Configuração inicial na aplicação
 
-### Step 5: Start using
+1. Na **barra lateral esquerda**, selecione o provedor de IA — por exemplo, Google Gemini;
+2. **Insira a chave de API** — use a tabela acima para saber onde obtê-la;
+3. A chave é **salva automaticamente** em `~/.profile_optimizer/config.json`;
+4. Essa configuração só precisa ser feita uma vez — nas próximas execuções, a chave já estará disponível.
 
-1. Go to **📋 LinkedIn** tab
-2. Upload your LinkedIn PDF
-3. Click **Optimize** → get results
-4. Switch to other tabs — your profile is already loaded, no re-upload needed
+### Etapa 5: Começar a usar
 
----
-
-## How to Get Your LinkedIn PDF
-
-1. Open LinkedIn in a browser (not the mobile app)
-2. Go to **your profile page**
-3. Click the **More** button (below your banner image)
-4. Click **Save to PDF**
-5. A PDF file downloads — this is what you upload in the app
+1. Acesse a aba **📋 LinkedIn**;
+2. Envie seu PDF do LinkedIn;
+3. Clique em **Otimizar** para obter os resultados;
+4. Alterne entre as outras abas — seu perfil já estará carregado e não será necessário enviá-lo novamente.
 
 ---
 
-## How to Stop the App
+## Como obter seu PDF do LinkedIn
 
-Press `Ctrl+C` in the terminal where you ran `streamlit run app.py`.
+1. Abra o LinkedIn em um navegador — não use o aplicativo para celular;
+2. Acesse a página do seu perfil;
+3. Clique no botão **Mais**, abaixo da imagem de capa;
+4. Clique em **Salvar em PDF**;
+5. Um arquivo PDF será baixado. Esse é o arquivo que você deve enviar para a aplicação.
 
 ---
 
-## Using Ollama (Free, Local, Offline)
+## Como parar a aplicação
 
-Ollama runs AI models on your own computer — completely free, no account, no internet needed for AI.
+Pressione `Ctrl+C` no terminal em que você executou `streamlit run app.py`.
 
-### Setup Ollama
+---
+
+## Usando o Ollama (gratuito, local e offline)
+
+O Ollama executa modelos de IA no seu próprio computador — gratuitamente, sem necessidade de conta e sem conexão com a internet para o processamento da IA.
+
+### Configurar o Ollama
 
 **Linux:**
+
 ```bash
 curl -fsSL https://ollama.com/install.sh | sh
 ```
 
 **Mac:**
+
 ```bash
 brew install ollama
 ```
 
 **Windows:**
-Download from https://ollama.com/download
 
-### Pull a model
+Baixe o instalador em https://ollama.com/download
+
+### Baixar um modelo
 
 ```bash
 ollama pull llama3.1
 ```
 
-This downloads the model (~4.7GB for llama3.1 8B). One-time download.
+Esse comando baixa o modelo — aproximadamente 4,7 GB para o `llama3.1` 8B. O download é feito apenas uma vez.
 
-### Start the server
+### Iniciar o servidor
 
 ```bash
 ollama serve
 ```
 
-Keep this terminal open. Then in another terminal, run the app:
+Mantenha esse terminal aberto. Em outro terminal, execute a aplicação:
 
 ```bash
 streamlit run app.py
 ```
 
-Select **"Ollama (Local — Free)"** in the sidebar. Your downloaded models show up automatically.
+Selecione **Ollama (Local — Gratuito)** na barra lateral. Os modelos baixados serão identificados automaticamente.
 
-### Which Ollama model to use?
+### Qual modelo do Ollama usar?
 
-| Model | RAM Needed | Quality | Speed |
-|-------|-----------|---------|-------|
-| `llama3.1` (8B) | 8GB | Good | Fast |
-| `llama3.1:70b` | 40GB | Great | Slow |
-| `mistral` (7B) | 8GB | Good | Fast |
-| `qwen2.5` (7B) | 8GB | Good | Fast |
+| Modelo | Memória RAM necessária | Qualidade | Velocidade |
+|---|---:|---|---|
+| `llama3.1` (8B) | 8 GB | Boa | Rápida |
+| `llama3.1:70b` | 40 GB | Ótima | Lenta |
+| `mistral` (7B) | 8 GB | Boa | Rápida |
+| `qwen2.5` (7B) | 8 GB | Boa | Rápida |
 
-For most PCs, `llama3.1` works fine.
-
----
-
-## Detailed Tool Guide
-
-### 📋 LinkedIn Optimizer
-**What you get:**
-- Rewritten headline (under 220 chars, ATS keyword-rich)
-- New About section (hook-first, action verbs, CTA at end)
-- Experience bullets rewritten in STAR format (Situation → Action → Result)
-- Skills reordered by recruiter relevance
-- 30-second elevator pitch
-- LinkedIn post idea for visibility
-- List of issues found and fixed in your current profile
-
-### 🎯 JD Matcher
-**What you get:**
-- Match score (0-100%)
-- "Should I Apply?" verdict (Yes/No/Maybe)
-- Matching skills vs missing skills
-- Keyword gaps
-- Tailored headline for THAT specific job
-- Resume bullets to add for THAT role
-- 5-step action plan to improve chances
-
-### 📄 ATS Resume
-**What it fixes:**
-- Removes fancy formatting (ATS can't read columns/tables)
-- Uses strong action verbs (Built, Developed, Optimized)
-- Adds metrics and numbers
-- Includes relevant keywords naturally
-- Clean structure: Summary → Experience → Skills → Education
-
-### 🛠️ Project Suggestions
-**What you get per project:**
-- Project name + tagline
-- Why it helps (fills which skill gap)
-- Full tech stack
-- Difficulty level + time estimate
-- Key features to implement
-- GitHub repo description (ready to paste)
-- Why recruiters would be impressed
-
-### 🎤 Interview Prep
-**Choose interview type:**
-- Technical + Behavioral (Mixed)
-- Technical Deep Dive
-- Behavioral / Culture Fit
-- System Design
-- HR / Screening Round
-
-**What you get:**
-- Opening pitch for "Tell me about yourself"
-- 10-15 questions with personalized answers from YOUR experience
-- Questions to ask the interviewer
-- Red flags to avoid
-- Salary range suggestion
-
-### 📧 Cold Outreach (9 templates)
-1. LinkedIn connection note (under 300 chars)
-2. DM to recruiter
-3. DM to hiring manager
-4. DM asking for referral
-5. DM to startup founder/CTO
-6. Cold email template
-7. Follow-up after no response
-8. Referral request to friend
-9. Thank you after interview
-
-### 📊 Skills Gap Analysis
-**What you get:**
-- Market readiness score (0-100%)
-- Skills you have vs skills required
-- Each gap ranked: Critical / Important / Nice-to-have
-- How to learn each skill + time estimate
-- Month-by-month learning roadmap with specific resources
-- Certifications to get
-
-### 🔍 Job Keywords
-**Search strings for:**
-- LinkedIn Jobs (10 queries)
-- Naukri.com (10 queries)
-- Indeed (10 queries)
-- Google Jobs (5 queries like `site:lever.co "AI Engineer" "India"`)
-- Advanced boolean search string
-- 15 job title variations to search
-- 20 companies to target
-- Niche job boards for your field
-- Hashtags to follow
-- Google Alerts to set
-
-### ✉️ Cover Letter
-**What makes it good:**
-- Opens with a hook (not "I am writing to apply")
-- Connects YOUR experience to job requirements
-- Shows company knowledge
-- Includes 2-3 achievements with numbers
-- Ends with confident call to action
-- Under 400 words, sounds human
+Para a maioria dos computadores, o `llama3.1` funciona bem.
 
 ---
 
-## Smart Profile Sharing
+## Guia detalhado das ferramentas
 
-Upload your LinkedIn PDF **once** in any tab → it's automatically available in **all other tabs**. No re-uploading.
+### 📋 Otimizador do LinkedIn
+
+**O que você recebe:**
+
+- Título reescrito, com menos de 220 caracteres e palavras-chave relevantes para ATS;
+- Nova seção Sobre, com gancho inicial, verbos de ação e chamada para ação no final;
+- Experiências reescritas no formato STAR — Situação, Tarefa, Ação e Resultado;
+- Competências reorganizadas por relevância para recrutadores;
+- Apresentação profissional de 30 segundos;
+- Ideia de publicação para aumentar sua visibilidade no LinkedIn;
+- Lista dos problemas encontrados e corrigidos no seu perfil atual.
+
+### 🎯 Comparador com descrição de vaga
+
+**O que você recebe:**
+
+- Índice de compatibilidade de 0 a 100%;
+- Veredito **Devo me candidatar?** — Sim, Não ou Talvez;
+- Competências compatíveis e competências ausentes;
+- Lacunas de palavras-chave;
+- Título personalizado para aquela vaga;
+- Itens de currículo para acrescentar de acordo com a vaga;
+- Plano de ação com 5 etapas para aumentar suas chances.
+
+### 📄 Currículo ATS
+
+**O que ele corrige:**
+
+- Remove formatações complexas, pois sistemas ATS podem não interpretar colunas e tabelas corretamente;
+- Usa verbos de ação fortes, como Construí, Desenvolvi e Otimizei;
+- Acrescenta métricas e números;
+- Inclui palavras-chave relevantes de forma natural;
+- Mantém uma estrutura limpa: Resumo → Experiência → Competências → Formação.
+
+### 🛠️ Sugestões de projetos
+
+**O que você recebe por projeto:**
+
+- Nome do projeto e frase de apresentação;
+- Explicação de como o projeto ajuda a preencher uma lacuna de competência;
+- Stack tecnológico completo;
+- Nível de dificuldade e estimativa de tempo;
+- Principais funcionalidades a implementar;
+- Descrição do repositório no GitHub pronta para colar;
+- Explicação de por que o projeto pode impressionar recrutadores.
+
+### 🎤 Preparação para entrevista
+
+**Escolha o tipo de entrevista:**
+
+- Técnica e comportamental — mista;
+- Aprofundamento técnico;
+- Comportamental e compatibilidade cultural;
+- Design de sistemas;
+- RH e triagem inicial.
+
+**O que você recebe:**
+
+- Apresentação inicial para responder a “Fale sobre você”;
+- De 10 a 15 perguntas com respostas personalizadas a partir da sua experiência;
+- Perguntas para fazer ao entrevistador;
+- Sinais de alerta a evitar;
+- Sugestão de faixa salarial.
+
+### 📧 Abordagem profissional — 9 modelos
+
+1. Nota de conexão do LinkedIn, com menos de 300 caracteres;
+2. Mensagem para recrutador;
+3. Mensagem para gerente de contratação;
+4. Mensagem solicitando indicação;
+5. Mensagem para fundador ou CTO de startup;
+6. Modelo de e-mail de abordagem;
+7. Follow-up após não receber resposta;
+8. Pedido de indicação a um conhecido;
+9. Agradecimento após entrevista.
+
+### 📊 Análise de lacunas de competências
+
+**O que você recebe:**
+
+- Índice de preparo para o mercado, de 0 a 100%;
+- Competências que você possui e competências exigidas;
+- Classificação de cada lacuna: Crítica, Importante ou Desejável;
+- Como aprender cada competência e estimativa de tempo;
+- Roteiro mensal de aprendizagem com recursos específicos;
+- Certificações recomendadas.
+
+### 🔍 Palavras-chave para vagas
+
+**Strings de busca para:**
+
+- Vagas do LinkedIn — 10 consultas;
+- Naukri.com — 10 consultas;
+- Indeed — 10 consultas;
+- Google Jobs — 5 consultas, como `site:lever.co "AI Engineer" "India"`;
+- Busca booleana avançada;
+- 15 variações de cargos para pesquisar;
+- 20 empresas para acompanhar;
+- Sites de vagas de nicho para sua área;
+- Hashtags para seguir;
+- Alertas do Google para configurar.
+
+### ✉️ Carta de apresentação
+
+**O que torna a carta eficiente:**
+
+- Começa com um gancho, e não com “Estou escrevendo para me candidatar”;
+- Relaciona sua experiência aos requisitos da vaga;
+- Demonstra conhecimento sobre a empresa;
+- Inclui de 2 a 3 conquistas com números;
+- Termina com uma chamada para ação confiante;
+- Tem menos de 400 palavras e mantém uma linguagem natural.
 
 ---
 
-## Project Structure
+## Compartilhamento inteligente do perfil
 
-```
+Envie seu PDF do LinkedIn **uma única vez**, em qualquer aba, e ele ficará automaticamente disponível em **todas as outras abas**. Não é necessário fazer o upload novamente.
+
+---
+
+## Estrutura do projeto
+
+```text
 careerkit/
-├── app.py                 # Main app — all 10 tools (Streamlit)
-├── requirements.txt       # Python dependencies
-├── .gitignore             # Blocks secrets & generated files
-└── README.md              # This file
+├── app.py                 # Aplicação principal — todas as 10 ferramentas (Streamlit)
+├── requirements.txt       # Dependências do Python
+├── .gitignore             # Impede o versionamento de segredos e arquivos gerados
+└── README.md              # Este arquivo
 ```
 
 ---
 
-## Privacy & Security
+## Privacidade e segurança
 
-- **API keys** saved locally at `~/.profile_optimizer/config.json` — never uploaded anywhere
-- **Your profile data** is sent ONLY to the AI provider you choose — not stored on any server
-- **No analytics, no tracking, no telemetry** — the app doesn't phone home
-- **With Ollama:** fully offline — zero data leaves your machine
-- **App runs locally** on your computer at `localhost:8501` — not accessible from internet
+- As **chaves de API** são salvas localmente em `~/.profile_optimizer/config.json` e nunca são enviadas para outro local pela aplicação;
+- Os **dados do seu perfil** são enviados somente ao provedor de IA escolhido e não são armazenados em um servidor da aplicação;
+- Não há analytics, rastreamento ou telemetria — a aplicação não se comunica com um servidor próprio;
+- Com o **Ollama**, o processamento é totalmente offline e nenhum dado deixa o seu computador;
+- A aplicação é executada localmente no seu computador, em `localhost:8501`, e não fica acessível pela internet por padrão.
 
----
-
-## Troubleshooting
-
-| Problem | Cause | Fix |
-|---------|-------|-----|
-| `ModuleNotFoundError: No module named 'streamlit'` | Dependencies not installed | Run `pip install -r requirements.txt` |
-| `ModuleNotFoundError: No module named 'anthropic'` | Using Claude without SDK | Run `pip install anthropic` |
-| `ModuleNotFoundError: No module named 'openai'` | Using OpenAI without SDK | Run `pip install openai` |
-| App says "Enter API key" | Key not set | Paste your API key in the sidebar |
-| "API Error: 401" | Invalid API key | Check your key is correct, not expired |
-| "API Error: 429" | Rate limited | Wait a minute and try again, or switch provider |
-| PDF text extraction is empty | LinkedIn PDF format issue | Re-export PDF from LinkedIn using Chrome browser |
-| GitHub fetch fails | Wrong username or private profile | Check spelling, ensure profile is public |
-| JSON parse error | AI gave malformed response | Click the button again, or try a different model |
-| Ollama not found / connection refused | Ollama server not running | Run `ollama serve` in a separate terminal |
-| Ollama response very slow | Model too large for your PC | Use smaller model: `ollama pull llama3.1` |
-| Browser doesn't open | Headless/SSH environment | Manually open `http://localhost:8501` |
-| Port 8501 already in use | Another Streamlit running | Kill it: `pkill -f streamlit` then retry |
-| `python3: command not found` | Python not installed | Install Python 3.10+ from python.org |
+> Consulte sempre as políticas de privacidade do provedor de IA escolhido antes de enviar dados pessoais ou profissionais.
 
 ---
 
-## FAQ
+## Solução de problemas
 
-**Q: Is this free?**
-A: The app itself is free. AI costs depend on provider — Gemini, Groq, and Ollama are free.
-
-**Q: Is my data safe?**
-A: Yes. Everything runs locally. Data goes only to the AI provider you pick.
-
-**Q: Can I use this without internet?**
-A: Partially. With Ollama, AI runs offline. But GitHub fetch still needs internet.
-
-**Q: Which provider is best?**
-A: Claude and GPT-4o give best quality. Gemini is best free option. Groq is fastest.
-
-**Q: Do I need all dependencies?**
-A: No. If you only use Gemini/Groq/Ollama: `pip install streamlit pdfplumber requests` is enough.
+| Problema | Causa | Solução |
+|---|---|---|
+| `ModuleNotFoundError: No module named 'streamlit'` | Dependências não instaladas | Execute `pip install -r requirements.txt` |
+| `ModuleNotFoundError: No module named 'anthropic'` | Uso do Claude sem o SDK | Execute `pip install anthropic` |
+| `ModuleNotFoundError: No module named 'openai'` | Uso da OpenAI sem o SDK | Execute `pip install openai` |
+| A aplicação informa “Enter API key” | Chave não configurada | Cole sua chave de API na barra lateral |
+| “API Error: 401” | Chave de API inválida | Verifique se a chave está correta e não expirou |
+| “API Error: 429” | Limite de requisições atingido | Aguarde um minuto e tente novamente ou troque de provedor |
+| A extração do texto do PDF está vazia | Problema no formato do PDF do LinkedIn | Exporte o PDF novamente usando o navegador Chrome |
+| Falha ao consultar o GitHub | Nome de usuário incorreto ou perfil privado | Verifique a grafia e confirme que o perfil é público |
+| Erro ao interpretar JSON | A IA retornou uma resposta malformada | Clique no botão novamente ou tente outro modelo |
+| Ollama não encontrado ou conexão recusada | O servidor do Ollama não está em execução | Execute `ollama serve` em outro terminal |
+| Resposta do Ollama muito lenta | O modelo é grande demais para o computador | Use um modelo menor: `ollama pull llama3.1` |
+| O navegador não abre | Ambiente sem interface gráfica ou conexão SSH | Abra manualmente `http://localhost:8501` |
+| A porta 8501 já está em uso | Outra aplicação Streamlit está em execução | Encerre-a com `pkill -f streamlit` e tente novamente |
+| `python3: command not found` | Python não está instalado | Instale Python 3.10 ou superior em https://www.python.org |
 
 ---
 
-## License
+## Perguntas frequentes
 
-MIT — use it, modify it, share it.
+**P: Este projeto é gratuito?**  
+R: A aplicação é gratuita. Os custos de IA dependem do provedor escolhido. Gemini, Groq e Ollama oferecem opções gratuitas.
+
+**P: Meus dados estão seguros?**  
+R: A aplicação é executada localmente. Os dados são enviados somente ao provedor de IA que você escolher. Verifique também a política de privacidade desse provedor.
+
+**P: Posso usar a aplicação sem internet?**  
+R: Parcialmente. Com o Ollama, o processamento da IA funciona offline, mas a consulta ao GitHub ainda precisa de internet.
+
+**P: Qual provedor é melhor?**  
+R: Claude e GPT-4o oferecem a melhor qualidade geral. Gemini é uma boa opção gratuita e Groq é a opção mais rápida. O Ollama é indicado quando a prioridade é executar tudo localmente.
+
+**P: Preciso instalar todas as dependências?**  
+R: Não. Se você usar apenas Gemini, Groq ou Ollama, `pip install streamlit pdfplumber requests` é suficiente.
+
+---
+
+## Licença
+
+MIT — use, modifique e compartilhe.
+
+---
+
+## Créditos e referência
+
+Este projeto é um fork e uma adaptação do [CareerKit original](https://github.com/humaniods/careerkit ), criado por [Sanyam Sharma](https://github.com/humaniods ).
+
+As traduções, adaptações e futuras melhorias deste fork são mantidas por **Fabio Araújo (0xFAB10)**. Consulte o repositório original para conhecer a implementação de referência e acompanhar o trabalho do autor original.
