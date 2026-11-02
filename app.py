@@ -52,7 +52,7 @@ PROVIDERS = {
     "Groq": {
         "key_name": "groq_api_key",
         "key_help": "Get from [console.groq.com](https://console.groq.com/keys) → API Keys (free tier available)",
-        "models": ["llama-3.3-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768", "gemma2-9b-it"],
+        "models": ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.8-27b"],
         "needs_key": True,
     },
     "Ollama (Local — Free)": {
@@ -232,17 +232,21 @@ def parse_json_response(raw: str) -> dict | None:
 def ai_call_with_json(provider, api_key, model, prompt) -> dict | None:
     """Call AI and parse JSON response. Returns dict or None."""
     try:
-        raw = call_ai(provider, api_key, model, prompt)
+        raw = call_ai(provider, api_key, model, prompt + PT_BR_INSTRUCTION)
         return parse_json_response(raw)
     except Exception as e:
         st.error(f"❌ API Error: {e}")
         return None
 
+PT_BR_INSTRUCTION = (
+    "\n\n⚠️ IDIOMA OBRIGATÓRIO: Responda TUDO em português do Brasil (pt-BR). "
+    "Traduza os valores do JSON, mas mantenha as CHAVES do JSON em inglês."
+)
 
 def ai_call_with_text(provider, api_key, model, prompt) -> str | None:
     """Call AI and return raw text. Returns str or None."""
     try:
-        return call_ai(provider, api_key, model, prompt)
+        return call_ai(provider, api_key, model, prompt + PT_BR_INSTRUCTION)
     except Exception as e:
         st.error(f"❌ API Error: {e}")
         return None
