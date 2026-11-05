@@ -171,7 +171,21 @@ def call_ai(provider: str, api_key: str, model: str, prompt: str) -> str:
             messages=[{"role": "user", "content": prompt}],
         )
         return msg.content[0].text.strip()
-
+        
+    elif provider == "DeepSeek":
+        resp = requests.post(
+            "https://api.deepseek.com/chat/completions",
+            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+            json={
+                "model": model,
+                "max_tokens": 8192,
+                "messages": [{"role": "user", "content": prompt}],
+            },
+            timeout=180,
+        )
+        resp.raise_for_status()
+        return resp.json()["choices"][0]["message"]["content"].strip()
+        
     elif provider == "OpenAI":
         import openai
         client = openai.OpenAI(api_key=api_key)
@@ -1869,6 +1883,7 @@ def main():
 | Provider | Cost | Speed |
 |----------|------|-------|
 | **Claude** | ~$0.03 | Fast |
+| **DeepSeek** | ~$0.001 | Fast |
 | **OpenAI** | ~$0.03 | Fast |
 | **Gemini** | Free! | Fast |
 | **Groq** | Free! | Fastest |
@@ -1920,14 +1935,14 @@ def main():
     tabs = st.tabs([
         "📋 LinkedIn",
         "🐙 GitHub",
-        "🎯 JD Matcher",
-        "📄 Resume",
-        "🛠️ Projects",
-        "🎤 Interview",
+        "🎯 Compatibilidade",
+        "📄 Curriculo",
+        "🛠️ Projetos",
+        "🎤 Entrevista",
         "📧 Outreach",
-        "📊 Skills Gap",
-        "🔍 Keywords",
-        "✉️ Cover Letter",
+        "📊 Lacunas",
+        "🔍 Palavras Chaves",
+        "✉️ Carta de Apresentação",
     ])
 
     with tabs[0]:
