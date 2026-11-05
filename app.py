@@ -2,7 +2,7 @@
 """
 Profile Optimizer — Complete Career Toolkit
 Streamlit UI — runs locally on your PC
-Supports: Claude, OpenAI, Gemini, Groq, Ollama (local/free)
+Supports: Claude, Deepseek, OpenAI, Gemini, Groq, Ollama (local/free)
 
 Features:
   1. LinkedIn Profile Optimizer
@@ -41,6 +41,12 @@ PROVIDERS = {
         "key_name": "openai_api_key",
         "key_help": "Get from [platform.openai.com](https://platform.openai.com/api-keys) → API Keys",
         "models": ["gpt-4o", "gpt-4o-mini", "gpt-4.1", "gpt-4.1-mini", "o3-mini"],
+        "needs_key": True,
+    },
+    "DeepSeek": {
+        "key_name": "deepseek_api_key",
+        "key_help": "Get from [platform.deepseek.com](https://platform.deepseek.com/api_keys) → API Keys (very cheap, supports pt-BR well)",
+        "models": ["deepseek-chat", "deepseek-reasoner"],
         "needs_key": True,
     },
     "Google Gemini": {
