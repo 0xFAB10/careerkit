@@ -5,16 +5,16 @@ Streamlit UI — runs locally on your PC
 Supports: Claude, Deepseek, OpenAI, Gemini, Groq, Ollama (local/free)
 
 Features:
-  1. LinkedIn Profile Optimizer
-  2. GitHub Profile Optimizer
-  3. JD Matcher (match score + gaps)
-  4. ATS Resume Generator
-  5. Project Suggestions
-  6. Interview Prep
-  7. Cold Outreach Templates
-  8. Skills Gap Analysis
-  9. Job Keywords Generator
-  10. Cover Letter Generator
+  1. Otimizador de Perfil do LinkedIn
+  2.Correspondência de Vaga (pontuação de compatibilidade + lacunas)
+  3.Gerador de Currículo para ATS
+  4.Gerador de Carta de Apresentação
+  5.Modelos de Prospecção Fria
+  6.Otimizador de Perfil do GitHub
+  7.Análise de Lacunas de Habilidades
+  8.Gerador de Palavras-chave para Vagas
+  9.Sugestões de Projetos
+  10.Preparação para Entrevista 
 """
 
 import streamlit as st
@@ -304,7 +304,7 @@ def get_profile_text_widget(key_prefix: str) -> str | None:
 # ══════════════════════════════════════════════════
 
 def tab_linkedin(provider, api_key, model):
-    st.header("📋 LinkedIn Profile Optimizer")
+    st.header("📋 Otimizador de Perfil do LinkedIn")
     st.markdown("""
     **How it works:**
     1. Go to your LinkedIn profile → Click **More** → **Save to PDF**
@@ -330,23 +330,23 @@ def tab_linkedin(provider, api_key, model):
                 st.error("❌ Could not extract text from PDF.")
                 return
 
-            prompt = f"""You are an elite personal branding expert and technical recruiter.
+            prompt = f"""Você é um especialista de elite em branding pessoal e recrutador técnico.
 
-TASK: Rewrite this LinkedIn profile to MAXIMALLY impress recruiters and pass ATS systems.
+TAREFA: Reescreva este perfil do LinkedIn para impressionar ao MÁXIMO os recrutadores e passar nos sistemas ATS.
 
-TARGET ROLES: {target or 'general tech roles'}
+CARGOS-ALVO: {target or 'general tech roles'}
 
 LINKEDIN PROFILE (from PDF):
 {pdf_text}
 
-RULES:
-1. Headline: under 220 chars, scannable, keyword-rich for ATS
-2. About: hook first line, NO "I am passionate about", action verbs, CTA at end, 3-4 paragraphs
-3. Experience: STAR format bullets — Situation→Action→Result. Tech stack names. Numbers.
-4. Skills: reorder by recruiter relevance
-5. Fix all issues (wrong titles, vague bullets, missing keywords)
+REGRAS:
+1.Título (Headline): menos de 220 caracteres, de leitura fácil, rico em palavras-chave para ATS
+2.Sobre (About): primeira linha de gancho, SEM "Sou apaixonado por", verbos de ação, CTA no final, 3-4 parágrafos
+3.Experiência: bullets no formato STAR — Situação→Ação→Resultado. Nomes de stack tecnológico. Números.
+4.Habilidades: reordene por relevância para o recrutador
+5.Corrija todos os problemas (cargos errados, bullets vagos, palavras-chave ausentes)
 
-Return ONLY valid JSON:
+Retorne APENAS JSON válido:
 {{
   "name": "detected name",
   "headline": "rewritten headline, max 220 chars",
@@ -1819,7 +1819,7 @@ hr {
 
 def main():
     st.set_page_config(
-        page_title="Profile Optimizer — Career Toolkit",
+        page_title="Otimizador de ProfileProfile Optimizer — Career ToolkitKit de Ferramentas de Carreira com IA",
         page_icon="🚀",
         layout="wide",
         initial_sidebar_state="expanded",
@@ -1831,9 +1831,9 @@ def main():
     # ── Animated Hero Header ────────────────────
     st.markdown("""
     <div class="hero-container">
-        <p class="hero-title">🚀 Profile Optimizer</p>
-        <p class="hero-subtitle">AI-Powered Career Toolkit — LinkedIn, GitHub, Resume, Interview & More</p>
-        <span class="hero-badge">✨ 10 Tools • 5 AI Providers • 100% Local & Private</span>
+        <p class="hero-title">🚀 Otimizador de Profile</p>
+        <p class="hero-subtitle">Kit de Ferramentas de Carreira com IA — LinkedIn, GitHub, Currículo, Entrevista e Mais</p>
+        <span class="hero-badge">✨ 10 Ferramentas • 5 Provedores de IA • 100% Local e Privado</span>
     </div>
     """, unsafe_allow_html=True)
 
@@ -1907,16 +1907,17 @@ def main():
 
         # Tool showcase cards
         tools = [
-            ("📋", "LinkedIn", "Rewrite headline, about, experience"),
-            ("🐙", "GitHub", "Bio, README.md, repo descriptions"),
-            ("🎯", "JD Matcher", "Match score, skill gaps, verdict"),
-            ("📄", "Resume", "ATS-optimized resume from PDF"),
-            ("🛠️", "Projects", "7 project ideas with tech stack"),
-            ("🎤", "Interview", "Questions + personalized answers"),
-            ("📧", "Outreach", "LinkedIn DMs, emails, referrals"),
-            ("📊", "Skills Gap", "Learning roadmap + certifications"),
-            ("🔍", "Keywords", "Job search strings for all platforms"),
-            ("✉️", "Cover Letter", "Tailored letter for any JD"),
+            ("📋", "LinkedIn", "Reescrever título, sobre, experiência"),
+            ("🎯", "Compatibilidade", "Pontuação de correspondência, lacunas de habilidades, veredito"),
+            ("📄", "Curriculo", "Currículo otimizado para ATS a partir de PDF"),
+            ("✉️", "Carta de apresentação", "Carta personalizada para qualquer descrição de vaga"),
+            ("📧", "Prospecção", "Mensagens diretas no LinkedIn, e-mails, indicações"),
+            ("🐙", "GitHub", "Bio, README.md, descrições de repositórios"),
+            ("📊", "Lacuna", "Roteiro de aprendizado + certificações"),
+            ("🔍", "Palavras Chave", "Strings de busca de emprego para todas as plataformas"),
+            ("🛠️", "Projetos", "7 ideias de projetos com stack tecnológico"),
+            ("🎤", "Entrevista", "Perguntas + respostas personalizadas"),
+            
         ]
 
         cols = st.columns(5)
@@ -1940,15 +1941,15 @@ def main():
     # ── Tabs ────────────────────────────────────
     tabs = st.tabs([
         "📋 LinkedIn",
-        "🐙 GitHub",
         "🎯 Compatibilidade",
         "📄 Curriculo",
-        "🛠️ Projetos",
-        "🎤 Entrevista",
-        "📧 Outreach",
+        "✉️ Carta de Apresentação",
+        "📧 Prospecção",
+        "🐙 GitHub",
         "📊 Lacunas",
         "🔍 Palavras Chaves",
-        "✉️ Carta de Apresentação",
+        "🛠️ Projetos",
+        "🎤 Entrevista",
     ])
 
     with tabs[0]:
