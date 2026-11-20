@@ -23,6 +23,7 @@ import pdfplumber
 import json
 from datetime import datetime
 from pathlib import Path
+from streamlit_js_eval import streamlit_js_eval
 
 # ── Config ──────────────────────────────────────
 CONFIG_DIR = Path.home() / ".profile_optimizer"
@@ -52,7 +53,7 @@ PROVIDERS = {
     "Google Gemini": {
         "key_name": "gemini_api_key",
         "key_help": "Get from [aistudio.google.com](https://aistudio.google.com/apikey) → Get API Key",
-        "models": ["gemini-2.5-flash", "gemini-2.5-pro", "gemini-2.0-flash"],
+        "models": ["gemini-4-neon", "gemini-4-argon", "gemini-3.8-flash", "gemini-3.5-flash-lite"],
         "needs_key": True,
     },
     "Groq": {
@@ -536,7 +537,27 @@ def tab_jd_matcher(provider, api_key, model):
     st.markdown("Paste a job description → get match score, skill gaps, and tailored suggestions.")
 
     profile_text = get_profile_text_widget("jd")
-    jd_text = st.text_area("📋 Paste Job Description", height=300, placeholder="Paste the full job description here...", key="jd_text")
+
+    if "jd_text" not in st.session_state:
+        st.session_state.jd_text = ""
+    col1, col2 = st.columns([1, 5])
+    with col1:
+        paste_clicked = st.button("📋 Colar", key="btn_paste_jd")
+
+    if paste_clicked:
+        clipboard_content = streamlit_js_eval(
+            js_expressions="navigator.clipboard.readText()",
+            key="read_clipboard"
+        )
+        if clipboard_content:
+            st.session_state.jd_text = clipboard_content
+            st.rerun()
+
+    jd_text = st.text_area(
+        "📋 Paste Job Description",
+        height=300,
+        placeholder="Paste the full job description here...",
+        key="jd_text")
 
     if profile_text and jd_text and st.button("🔍 Analyze Match", type="primary", key="btn_jd"):
         prompt = f"""You are an expert ATS analyst and career coach.
@@ -1955,23 +1976,24 @@ def main():
     with tabs[0]:
         tab_linkedin(provider, api_key, model)
     with tabs[1]:
-        tab_github(provider, api_key, model)
-    with tabs[2]:
         tab_jd_matcher(provider, api_key, model)
-    with tabs[3]:
+    with tabs[2]:
         tab_resume(provider, api_key, model)
-    with tabs[4]:
-        tab_projects(provider, api_key, model)
-    with tabs[5]:
-        tab_interview(provider, api_key, model)
-    with tabs[6]:
-        tab_outreach(provider, api_key, model)
-    with tabs[7]:
-        tab_skills_gap(provider, api_key, model)
-    with tabs[8]:
-        tab_keywords(provider, api_key, model)
-    with tabs[9]:
+    with tabs[3]:
         tab_cover_letter(provider, api_key, model)
+    with tabs[4]:
+        tab_outreach(provider, api_key, model)
+    with tabs[5]:
+        tab_github(provider, api_key, model)
+    with tabs[6]:
+        tab_skills_gap(provider, api_key, model)
+    with tabs[7]:
+        tab_keywords(provider, api_key, model)
+    with tabs[8]:
+        tab_projects(provider, api_key, model)
+    with tabs[9]:
+        tab_interview(provider, api_key, model)
+
 
     # Footer
     st.markdown("""
